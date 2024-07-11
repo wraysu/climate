@@ -240,7 +240,7 @@ function load() {
         mesh.rotateZ(deg_to_rad(-i-(360/months.length)));
         scene.add(mesh);
     }
-
+/*
     for(let i = 2; i <=63; i++){
         map(dataArr[index][0], dataArr[2][0], dataArr[63][0], -200, 200)
         const canvas = document.createElement('canvas');
@@ -267,7 +267,7 @@ function load() {
         mesh.rotateZ(deg_to_rad(-i-(360/months.length)));
         scene.add(mesh);
     }
-
+*/
     // ============================================= load 0 deg ring =============================================
     const zeroGeo = new THREE.RingGeometry( zeroRad-2.5, zeroRad, 64 );
     const zeroRing = new THREE.Mesh( zeroGeo, material );
