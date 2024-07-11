@@ -420,7 +420,7 @@ function animate() {
         if(camLerp < 1) {
             camInterval = setInterval(() => {
                 cam.position.lerp(new THREE.Vector3(90, 0, 5), camLerp);
-                camLerp += 0.01;
+                camLerp += 0.001;
                 if(camLerp >= 1) {
                     controls.enabled = true;
                     clearInterval(camInterval);
