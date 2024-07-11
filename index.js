@@ -305,6 +305,29 @@ function load() {
     zeroMesh.position.setY(201);
     scene.add(zeroMesh);
 
+    //ZeroLeft and Right
+    const zeroLeftMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(175, 175),
+        new THREE.MeshBasicMaterial({transparent: true, map: new THREE.CanvasTexture(zeroCanvas), side: THREE.DoubleSide})
+    );
+    zeroLeftMesh.rotateY(deg_to_rad(90));
+    zeroLeftMesh.position.setX(0);
+    zeroLeftMesh.position.setZ(zeroRad+20);
+    zeroLeftMesh.position.setY(210);
+    scene.add(zeroLeftMesh);
+
+    const zeroRightMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(175, 175),
+        new THREE.MeshBasicMaterial({transparent: true, map: new THREE.CanvasTexture(zeroCanvas), side: THREE.DoubleSide})
+    );
+    zeroRightMesh.rotateY(deg_to_rad(90));
+    zeroRightMesh.position.setX(0);
+    zeroRightMesh.position.setZ(-zeroRad-20);
+    zeroRightMesh.position.setY(210);
+    scene.add(zeroRightMesh);
+
+    
+
     // ============================================= load 1 deg ring =============================================
     const oneGeo = new THREE.RingGeometry( oneRad-1.5, oneRad, 64 );
     const oneRing = new THREE.Mesh( oneGeo, material_y );
@@ -334,6 +357,27 @@ function load() {
     oneMesh.position.setZ(onePolar.y);
     oneMesh.position.setY(201.1);
     scene.add(oneMesh);
+
+    //oneLeft and Right
+    const oneLeftMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(175, 175),
+        new THREE.MeshBasicMaterial({transparent: true, map: new THREE.CanvasTexture(oneCanvas), side: THREE.DoubleSide})
+    );
+    oneLeftMesh.rotateY(deg_to_rad(90));
+    oneLeftMesh.position.setX(0);
+    oneLeftMesh.position.setZ(oneRad+20);
+    oneLeftMesh.position.setY(210);
+    scene.add(oneLeftMesh);
+
+    const oneRightMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(175, 175),
+        new THREE.MeshBasicMaterial({transparent: true, map: new THREE.CanvasTexture(oneCanvas), side: THREE.DoubleSide})
+    );
+    oneRightMesh.rotateY(deg_to_rad(90));
+    oneRightMesh.position.setX(0);
+    oneRightMesh.position.setZ(-oneRad-20);
+    oneRightMesh.position.setY(210);
+    scene.add(oneRightMesh);
 
     // ============================================= load year text =============================================
     const yearCanvas = document.createElement('canvas');
@@ -427,26 +471,26 @@ function animate() {
                 }
             }, 200);
         }
-        let zeroRightPolar = polar_to_cart(zeroRad, 270);
+        let zeroRightPolar = polar_to_cart(zeroRad, -90);
         let zeroLefttPolar = polar_to_cart(zeroRad, 90);
         let oneRightPolar = polar_to_cart(oneRad, 270);
         let oneLeftPolar = polar_to_cart(oneRad, 90);
         let zeroRightline = new Line2(new LineGeometry().setPositions([
-            zeroRightPolar.x, -200, zeroRightPolar.y,
-            zeroRightPolar.x, 220, zeroRightPolar.y
+            0, -200, zeroRad,
+            0, 220, zeroRad
         ]), new LineMaterial({color: lines.length !== 0 ? 0xffffff : color, linewidth: 0.001}));
         let zeroLeftline = new Line2(new LineGeometry().setPositions([
-            zeroLefttPolar.x, -200, zeroLefttPolar.y,
-            zeroLefttPolar.x, 220, zeroLefttPolar.y
-        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.001}));
+            0, -200, -zeroRad,
+            0, 220, -zeroRad
+        ]), new LineMaterial({color: lines.length !== 0 ? 0xffffff : color, linewidth: 0.001}));
         let oneRightline = new Line2(new LineGeometry().setPositions([
-            oneRightPolar.x, -200, oneRightPolar.y,
-            oneRightPolar.x, 220, oneRightPolar.y
-        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.002}));
+            0, -200, oneRad,
+            0, 220, oneRad
+        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.001}));
         let oneLeftline = new Line2(new LineGeometry().setPositions([
-            oneLeftPolar.x, -200, oneLeftPolar.y,
-            oneLeftPolar.x, 220, oneLeftPolar.y
-        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.002}));
+            0, -200, -oneRad,
+            0, 220, -oneRad
+        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.001}));
         zeroRightline.computeLineDistances();
         zeroRightline.scale.set( 1, 1, 1 );
         scene.add( zeroRightline );
