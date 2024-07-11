@@ -390,12 +390,12 @@ function animate() {
     let line = new Line2(new LineGeometry().setPositions([
         prevMonthPolar.x, map(dataArr[index][0], dataArr[2][0], dataArr[63][0], -200, 200), prevMonthPolar.y,
         currMonthPolar.x, map(dataArr[index][0], dataArr[2][0], dataArr[63][0], -200, 200), currMonthPolar.y
-    ]), new LineMaterial({color: lines.length !== 0 ? 0xffffff : color, linewidth: 0.001}));
+    ]), new LineMaterial({color: lines.length !== 0 ? 0xffffff : color, linewidth: 0.002}));
     line.computeLineDistances();
     line.scale.set( 1, 1, 1 );
 	scene.add( line );
     if(lines.length > 0) {
-        lines[lines.length-1].material = new LineMaterial({color: lineColors[lines.length-1], linewidth: 0.001});
+        lines[lines.length-1].material = new LineMaterial({color: lineColors[lines.length-1], linewidth: 0.002});
     }
     lines.push(line);
     lineColors.push(color);
@@ -409,9 +409,9 @@ function animate() {
     } else {
         // GRAPHING ENDS
         if(graphEnd === false) {
-            lines[lines.length-1].material = new LineMaterial({color: lineColors[lines.length-1], linewidth: 0.001});
+            lines[lines.length-1].material = new LineMaterial({color: lineColors[lines.length-1], linewidth: 0.002});
             for(let i = 0; i < lines.length; i++) {
-                lines[i].material = new LineMaterial({color: lineColors[i], linewidth: 0.001});
+                lines[i].material = new LineMaterial({color: lineColors[i], linewidth: 0.002});
             }
         }
         graphEnd = true;
