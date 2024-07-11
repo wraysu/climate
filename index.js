@@ -427,6 +427,38 @@ function animate() {
                 }
             }, 200);
         }
+        let zeroRightPolar = polar_to_cart(zeroRad, 270);
+        let zeroLefttPolar = polar_to_cart(zeroRad, 90);
+        let oneRightPolar = polar_to_cart(oneRad, 270);
+        let oneLeftPolar = polar_to_cart(oneRad, 90);
+        let zeroRightline = new Line2(new LineGeometry().setPositions([
+            zeroRightPolar.x, -200, zeroRightPolar.y,
+            zeroRightPolar.x, 220, zeroRightPolar.y
+        ]), new LineMaterial({color: lines.length !== 0 ? 0xffffff : color, linewidth: 0.001}));
+        let zeroLeftline = new Line2(new LineGeometry().setPositions([
+            zeroLefttPolar.x, -200, zeroLefttPolar.y,
+            zeroLefttPolar.x, 220, zeroLefttPolar.y
+        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.001}));
+        let oneRightline = new Line2(new LineGeometry().setPositions([
+            oneRightPolar.x, -200, oneRightPolar.y,
+            oneRightPolar.x, 220, oneRightPolar.y
+        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.002}));
+        let oneLeftline = new Line2(new LineGeometry().setPositions([
+            oneLeftPolar.x, -200, oneLeftPolar.y,
+            oneLeftPolar.x, 220, oneLeftPolar.y
+        ]), new LineMaterial({color: lines.length !== 0 ? 0xffff00 : color, linewidth: 0.002}));
+        zeroRightline.computeLineDistances();
+        zeroRightline.scale.set( 1, 1, 1 );
+        scene.add( zeroRightline );
+        zeroLeftline.computeLineDistances();
+        zeroLeftline.scale.set( 1, 1, 1 );
+        scene.add( zeroLeftline );
+        oneRightline.computeLineDistances();
+        oneRightline.scale.set( 1, 1, 1 );
+        scene.add( oneRightline );
+        oneLeftline.computeLineDistances();
+        oneLeftline.scale.set( 1, 1, 1 );
+        scene.add( oneLeftline );
     }
     }
 
