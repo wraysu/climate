@@ -240,9 +240,9 @@ function load() {
         mesh.rotateZ(deg_to_rad(-i-(360/months.length)));
         scene.add(mesh);
     }
-/*
+
     for(let i = 2; i <=63; i++){
-        map(dataArr[index][0], dataArr[2][0], dataArr[63][0], -200, 200)
+        if ((dataArr[i][0] % 10) == 0 || dataArr[i][0]  == 1961){
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -252,22 +252,29 @@ function load() {
         ctx.font = String(canvas.width/8)+'px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(months[(i/(360/months.length))], canvas.width/2, canvas.height/2);
-
+        if (dataArr[i][0]  == 1961){
+            ctx.fillText(1960, canvas.width/2, canvas.height/2);
+        }else{
+            ctx.fillText(dataArr[i][0], canvas.width/2, canvas.height/2);
+        }
+        
         // create mesh with texture
         const mesh = new THREE.Mesh(
             new THREE.PlaneGeometry(200, 200),
             new THREE.MeshBasicMaterial({transparent: true, map: new THREE.CanvasTexture(canvas), side: THREE.DoubleSide})
         );
-        mesh.rotateX(deg_to_rad(-90));
-        const polar = polar_to_cart(monthsRad+24, deg_to_rad(i-(360/months.length)*2));
+        mesh.rotateY(deg_to_rad(90));
+        //mesh.rotateZ(deg_to_rad(90));
+        const polar = polar_to_cart(monthsRad+40 /2, 0);
         mesh.position.setX(polar.x);
         mesh.position.setZ(polar.y);
-        mesh.position.setY(201);
-        mesh.rotateZ(deg_to_rad(-i-(360/months.length)));
+        mesh.position.setY( map(dataArr[i][0], dataArr[2][0], dataArr[63][0], -200, 200));
+        //mesh.rotateZ(deg_to_rad(-i-(360/months.length)));
         scene.add(mesh);
+        }
+        
     }
-*/
+
     // ============================================= load 0 deg ring =============================================
     const zeroGeo = new THREE.RingGeometry( zeroRad-2.5, zeroRad, 64 );
     const zeroRing = new THREE.Mesh( zeroGeo, material );
@@ -412,7 +419,7 @@ function animate() {
         let camInterval;
         if(camLerp < 1) {
             camInterval = setInterval(() => {
-                cam.position.lerp(new THREE.Vector3(0, 0, 5), camLerp);
+                cam.position.lerp(new THREE.Vector3(90, 0, 5), camLerp);
                 camLerp += 0.01;
                 if(camLerp >= 1) {
                     controls.enabled = true;
