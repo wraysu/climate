@@ -344,7 +344,7 @@ function load() {
     oneCtx.font = String(oneCanvas.width/8)+'px Arial';
     oneCtx.textAlign = 'center';
     oneCtx.textBaseline = 'middle';
-    oneCtx.fillText("1°", oneCanvas.width/2, oneCanvas.height/2);
+    oneCtx.fillText("＋1°", oneCanvas.width/2, oneCanvas.height/2);
 
     // create mesh with texture
     const oneMesh = new THREE.Mesh(
