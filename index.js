@@ -463,7 +463,7 @@ function animate() {
         let camInterval;
         if(camLerp < 1) {
             camInterval = setInterval(() => {
-                cam.position.lerp(new THREE.Vector3(90, 0, 5), camLerp);
+                cam.position.lerp(new THREE.Vector3(90, 5, 0), camLerp);
                 camLerp += 0.0001;
                 if(camLerp >= 1) {
                     controls.enabled = true;
