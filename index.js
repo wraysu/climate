@@ -621,7 +621,7 @@ function animate() {
         if(graphEnd === false) {
             lines[lines.length-1].material = new LineMaterial({color: lineColors[lines.length-1], linewidth: 0.002});
             for(let i = 0; i < lines.length; i++) {
-                lines[i].material = new LineMaterial({color: lineColors[i], linewidth: 0.0035});
+                lines[i].material = new LineMaterial({color: lineColors[i], linewidth: 0.0055});
             }
         }
         graphEnd = true;
