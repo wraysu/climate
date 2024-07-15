@@ -584,12 +584,12 @@ function animate() {
     //let color = new THREE.Color().lerpColors(new THREE.Color(0x052f60), new THREE.Color(0x69001F), Number(dataArr[index][currMonth]));
      
     // 計算插值顏色
-    let minDegree = -0.845247;
-    let maxDegree = 1.31527;
+    let minDegree = -1;
+    let maxDegree = 1;
     let currentDegree = 1; // 假設這是當前度數
 
     // 計算相對位置
-    let t = (Number(dataArr[index][currMonth]) - minDegree) / (maxDegree - minDegree); 
+    let t = (Number((dataArr[index][currMonth])>1)?1:dataArr[index][currMonth]  - minDegree) / (maxDegree - minDegree); 
     // 計算插值顏色
     let startColor = colorsArray[Math.floor(t * (colorsArray.length - 1))];
     let endColor = colorsArray[Math.ceil(t * (colorsArray.length - 1))];
