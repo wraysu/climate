@@ -3,6 +3,84 @@
 // can be overriden in the second argument.
 const urlParams = new URLSearchParams(window.location.search);
 const myParam = urlParams.get('topo');
+const mycolor = urlParams.get('color');
+
+
+const ranges1 = [-Infinity, -1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, Infinity];
+const colors1 = [
+  [7, 47, 107],
+  [8, 82, 156],
+  [33, 113, 181],
+  [66, 146, 199],
+  [90, 160, 205],
+  [120, 191, 214],
+  [170, 220, 230],
+  [219, 245, 255],
+  [240, 252, 255],
+  [255, 240, 245],
+  [255, 224, 224],
+  [252, 187, 170],
+  [252, 146, 114],
+  [251, 106, 74],
+  [240, 60, 43],
+  [204, 24, 30],
+  [166, 15, 20],
+  [120, 10, 15]
+];
+
+// 根據數值查找對應的RGB顏色
+const hexColors1 = colors1.map(color => rgbToHex(color[0], color[1], color[2]));
+function getColor1(value) {
+  for (let i = 0; i < ranges1.length - 1; i++) {
+    if (value > ranges1[i] && value <= ranges1[i + 1]) {
+      return hexColors1[i];
+    }
+  }
+  // 如果不在範圍內，返回預設顏色
+  return [0, 0, 0];
+}
+
+const ranges2 = [-Infinity, -1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, Infinity];
+const colors2 = [
+  [7, 30, 70],
+  [7, 47, 107],
+  [8, 82, 156],
+  [33, 113, 181],
+  [66, 146, 199],
+  [90, 160, 205],
+  [120, 191, 214],
+  [170, 220, 230],
+  [219, 245, 255],
+  [255, 224, 224],
+  [252, 187, 170],
+  [252, 146, 114],
+  [251, 106, 74],
+  [240, 60, 43],
+  [204, 24, 30],
+  [166, 15, 20],
+  [120, 10, 15],
+  [95, 0, 0]
+];
+
+// 將RGB顏色轉換為HEX顏色
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+  }
+  
+  // 將所有RGB顏色轉換為HEX顏色
+
+  const hexColors2 = colors1.map(color => rgbToHex(color[0], color[1], color[2]));
+
+// 根據數值查找對應的RGB顏色
+function getColor2(value) {
+  for (let i = 0; i < ranges2.length - 1; i++) {
+    if (value > ranges2[i] && value <= ranges2[i + 1]) {
+      return hexColors2[i];
+    }
+  }
+  // 如果不在範圍內，返回預設顏色
+  return [0, 0, 0];
+}
 
 function CSVToArray( strData, strDelimiter ){
     // Check to see if the delimiter is defined. If not,
@@ -665,11 +743,18 @@ function animate() {
     let t = (Number(dataArr[index][currMonth])  - minDegree) / (maxDegree - minDegree); 
     if (Number(dataArr[index][currMonth])>1) t = 1;
     // 計算插值顏色
-    let startColor = colorsArray[Math.floor(t * (colorsArray.length - 1))];
-    let endColor = colorsArray[Math.ceil(t * (colorsArray.length - 1))];
-    let color = new THREE.Color().lerpColors(startColor, endColor, t * (colorsArray.length - 1) % 1);
-
-
+    let color;
+    if (mycolor ==1){      
+        color = new THREE.Color(getColor1(Number(dataArr[index][currMonth])));
+    }else if (mycolor == 2){
+       
+        color = new THREE.Color(getColor2(Number(dataArr[index][currMonth])));;
+    }else{
+        let startColor = colorsArray[Math.floor(t * (colorsArray.length - 1))];
+        let endColor = colorsArray[Math.ceil(t * (colorsArray.length - 1))];
+        color = new THREE.Color().lerpColors(startColor, endColor, t * (colorsArray.length - 1) % 1);
+    }
+   
 
     let line = new Line2(new LineGeometry().setPositions([
         prevMonthPolar.x, map(dataArr[(currMonth==1)?index-1:index][0], dataArr[2][0], dataArr[63][0], -200, 200), prevMonthPolar.y,
