@@ -59,6 +59,12 @@
             var options = {
                 width: '100%',
                 height: '100%',
+                chartArea: {
+                            width: '86%',
+                            height: '65%',
+                            left:50,
+                            bottom: 50 // 为 x 轴标签保留足够的底部空间
+                        },
                 legend: {position: 'top'},
                 vAxis: {
                     title: '溫度 (°C)',
@@ -84,7 +90,12 @@
             };
 
             var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-            
+            var formatter = new google.visualization.NumberFormat({ pattern: '####' });
+            formatter.format(data, 0);  // 0 是 Year 列的索引
+            var tempFormatter = new google.visualization.NumberFormat({ pattern: '#,##0.0' });
+            tempFormatter.format(data, 1);  
+            tempFormatter.format(data, 3);  
+            tempFormatter.format(data, 4);  
             function resizeChart() {
                 var chartDiv = document.getElementById('chart_div');
                 var parentWidth = chartDiv.parentElement.offsetWidth;
