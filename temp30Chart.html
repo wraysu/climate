@@ -33,6 +33,7 @@
                     data.addColumn({type: 'string', role: 'annotation'});
                     var maxT=0,minT = 100
                     jsonData.DataList.forEach(function(row) {
+                        //const tooltip = `<div style="padding:10px;"><strong>月份:</strong> ${Month}<br><strong>最高溫度:</strong> ${MaxTemp.toFixed(1)}°C<br>}</div>`;
                         data.addRow([
                             row.Month.toString(),
                             parseFloat(row.MinTemp),
@@ -41,7 +42,9 @@
                             row.MeanTemp,
                             parseFloat(row.MaxTemp),
                             row.MaxTemp
+                            //tooltip
                         ]);
+
                         maxT =  (row.MaxTemp > maxT)? row.MaxTemp:maxT
                         minT =  (row.MinTemp < minT)? row.MinTemp:minT
                     });
@@ -52,9 +55,15 @@
                         width: '100%',
                         height: '100%',
                         chartArea: {
-                            width: '80%',
+                            width: '90%',
                             height: '65%',
+                            left:50,
                             bottom: 50 // 为 x 轴标签保留足够的底部空间
+                        },
+                        //tooltip: { isHtml: true },
+                        crosshair: { 
+                            trigger: 'both',
+                            orientation: 'vertical' // 垂直方向
                         },
                         vAxis: {
                             title: '溫度 (°C)',
