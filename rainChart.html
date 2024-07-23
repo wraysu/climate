@@ -43,6 +43,7 @@
             data.addColumn('number', '線性趨勢');
 
             var avgRain = parseFloat(jsonData.DataList[0].AvgRain);
+            var avgRain2 = Math.round(parseFloat(jsonData.DataList[0].AvgRain)/500) * 500
 
             jsonData.DataList.forEach(function(row) {
                 var rain = parseFloat(row.Rain);
@@ -72,14 +73,15 @@
                     baseline: avgRain,
                     baselineColor: '#ccc',
                     ticks: [
-                        {v: avgRain - 1000, f: (avgRain - 1000).toFixed(0)},    
-                        {v: avgRain - 500, f: (avgRain - 500).toFixed(0)},
+                        {v: avgRain2 - 1500, f: (avgRain2 - 1500).toFixed(0)},
+                        {v: avgRain2 - 1000, f: (avgRain2 - 1000).toFixed(0)},    
+                        {v: avgRain2 - 500, f: (avgRain2 - 500).toFixed(0)},
                         {v: avgRain, f: avgRain.toFixed(0) + ' (平均)'},
-                        {v: avgRain + 500, f: (avgRain + 500).toFixed(0)},
-                        {v: avgRain + 1000, f: (avgRain + 1000).toFixed(0)},
-                        {v: avgRain + 1500, f: (avgRain + 1500).toFixed(0)},
-                        {v: avgRain + 2000, f: (avgRain + 2000).toFixed(0)},
-                        {v: avgRain + 2500, f: (avgRain + 2500).toFixed(0)}
+                        {v: avgRain2 + 500, f: (avgRain2 + 500).toFixed(0)},
+                        {v: avgRain2 + 1000, f: (avgRain2 + 1000).toFixed(0)},
+                        {v: avgRain2 + 1500, f: (avgRain2 + 1500).toFixed(0)}
+                        //{v: avgRain2 + 2000, f: (avgRain2 + 2000).toFixed(0)},
+                        //{v: avgRain2 + 2500, f: (avgRain2 + 2500).toFixed(0)}
                     ]
                 },
                 hAxis: {
