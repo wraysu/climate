@@ -45,8 +45,8 @@
                             //tooltip
                         ]);
 
-                        maxT =  (row.MaxTemp > maxT)? row.MaxTemp:maxT
-                        minT =  (row.MinTemp < minT)? row.MinTemp:minT
+                        maxT =  (parseFloat(row.MaxTemp) > maxT)? parseFloat(row.MaxTemp):maxT
+                        minT =  (parseFloat(row.MinTemp) < minT)? parseFloat(row.MinTemp):minT
                     });
 
                     var options = {
@@ -69,7 +69,7 @@
                             title: '溫度 (°C)',
                             viewWindow: {
                                 min: minT -5,
-                                max: 40                               
+                                max: maxT + 5                               
                             },
                             format: 'decimal'  // 强制格式化
                         },
