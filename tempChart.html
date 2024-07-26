@@ -72,10 +72,10 @@
                     baseline: avgTemp,
                     baselineColor: '#ccc',
                     ticks: [
-                        {v: avgTemp - 1, f: (avgTemp - 1).toFixed(1)},
+                        {v: Math.round(avgTemp - 1), f: Math.round(avgTemp - 1)},
                         {v: avgTemp, f: avgTemp.toFixed(1) + ' (平均)'},
-                        {v: avgTemp + 1, f: (avgTemp + 1).toFixed(1)},
-                        {v: avgTemp + 2, f: (avgTemp + 2).toFixed(1)}
+                        {v: Math.round(avgTemp + 1), f: Math.round((avgTemp + 1)},
+                        {v: Math.round(avgTemp + 2), f: Math.round(avgTemp + 2)}
                     ]
                 },
                 hAxis: {
