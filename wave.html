@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Wave Forecast Time Slider (3D)</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    #timeSlider {
+      position: absolute;
+      left: 50px;
+      right: 50px;
+      bottom: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/SceneView",
+      "esri/layers/MediaLayer",
+      "esri/layers/VectorTileLayer",
+      "esri/layers/support/ImageElement",
+      "esri/layers/support/ExtentAndRotationGeoreference",
+      "esri/widgets/TimeSlider",
+      "esri/geometry/Extent"
+    ], function(Map, SceneView, MediaLayer,VectorTileLayer, ImageElement, ExtentAndRotationGeoreference, TimeSlider, Extent) {
+      // 建立地圖
+      const tileLayer = new VectorTileLayer({
+          url:
+            "https://dwfile1.ncdr.nat.gov.tw/disp/layer3g/vt/NationalGeographicStyle.json"
+        });
+      
+      var map = new Map({
+        basemap: "satellite",
+        ground: "world-elevation"
+      });
+      map.add(tileLayer)
+      // 建立 3D 場景視圖
+      var view = new SceneView({
+        container: "viewDiv",
+        map: map,
+        camera: {
+          position: [125, 10, 5000000], // 調整相機位置以獲得更好的 3D 視角
+          heading: 0,
+          tilt: 20
+        },
+        environment: {
+          starsEnabled: true,
+          atmosphereEnabled: false
+        }
+      });
+      // 設定時間範圍
+      var startTime = new Date("2024-08-03T12:00:00Z");
+      var endTime = new Date("2024-08-15T12:00:00Z");
+      // 定義圖像範圍
+      var imageExtent = new Extent({
+        xmin: 80,
+        ymin: 0,
+        xmax: 180,
+        ymax: 52.7,
+        spatialReference: {
+          wkid: 4326
+        }
+      });
+      var imageExtent3857 = new Extent({
+        xmin:8905559.263461886,
+        ymin:0,
+        xmax:20037508.342789244,
+        ymax:6909348.787339878,
+        spatialReference: {
+            wkid: 102100
+          }
+      });
+      // 生成時間序列
+      var timeSteps = [];
+      var currentTime = new Date(startTime);
+      while (currentTime <= endTime) {
+        timeSteps.push(new Date(currentTime));
+        currentTime.setHours(currentTime.getHours() + 12);
+      }
+      // 為每個時間步驟創建 ImageElement
+      var imageElements = timeSteps.map(function(time) {
+        var formattedTime = time.toISOString().slice(0, 13).replace('T', '_');
+        return {
+              name: formattedTime,
+              title: formattedTime,
+              element: new ImageElement({
+          image: `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/${formattedTime}.png`,
+          opacity : 0.7,
+          georeference: new ExtentAndRotationGeoreference({
+            extent: imageExtent
+          })
+        })}
+      });
+      var imgElements = timeSteps.map(function(time) {
+        var formattedTime = time.toISOString().slice(0, 13).replace('T', '_');
+        return  new ImageElement({
+          image: `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/${formattedTime}.png`,
+          opacity : 0.7,
+          georeference: new ExtentAndRotationGeoreference({
+            extent: imageExtent
+          })
+        })
+      });
+      var formattedTime = currentTime.toISOString().slice(0, 13).replace('T', '_');
+      // 建立 MediaLayer
+      var mediaLayer = new MediaLayer({
+        source: imgElements,
+        opacity: 0.7
+      });
+      map.add(mediaLayer);
+      // 建立 TimeSlider
+      var timeSlider = new TimeSlider({
+        container: "timeSlider",
+        view: view,
+        mode: "instant",
+        loop: true,
+        fullTimeExtent: {
+          start: startTime,
+          end: endTime
+        },
+        vlaues: [startTime],
+        playRate: 1000,
+        stops: {
+          interval: {
+            value: 12,
+            unit: "hours"
+          }
+        }
+      });
+      // 當時間變更時更新圖層
+      timeSlider.watch("timeExtent", function(value) {
+        var currentTimeString = value.start.toISOString().slice(0, 13).replace('T', '_');
+
+        imageElements.forEach(function(element) {
+          if (element.name.includes(currentTimeString)){     
+            mediaLayer.source.elements.add(element.element);
+          }else{
+            mediaLayer.source.elements.remove(element.element);
+          };
+        });
+      
+      });
+      view.ui.add(timeSlider, "manual");
+      // 自動播放
+      //timeSlider.play();
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="timeSlider"></div>
+</body>
+
+</html>
