@@ -30,10 +30,11 @@
       "esri/layers/MediaLayer",
       "esri/layers/VectorTileLayer",
       "esri/layers/support/ImageElement",
+      "esri/geometry/SpatialReference",
       "esri/layers/support/ExtentAndRotationGeoreference",
       "esri/widgets/TimeSlider",
       "esri/geometry/Extent"
-    ], function(Map, SceneView, MediaLayer,VectorTileLayer, ImageElement, ExtentAndRotationGeoreference, TimeSlider, Extent) {
+    ], function(Map, SceneView, MediaLayer,VectorTileLayer, ImageElement,SpatialReference, ExtentAndRotationGeoreference, TimeSlider, Extent) {
       // 建立地圖
       const tileLayer = new VectorTileLayer({
           url:
@@ -49,6 +50,10 @@
       var view = new SceneView({
         container: "viewDiv",
         map: map,
+        viewingMode: "local",
+  //      spatialReference: new SpatialReference({
+  //                  wkid: 4326 // WGS84
+  //              }),
         camera: {
           position: [125, 10, 5000000], // 調整相機位置以獲得更好的 3D 視角
           heading: 0,
@@ -76,7 +81,7 @@
         xmin:8905559.263461886,
         ymin:0,
         xmax:20037508.342789244,
-        ymax:6909348.787339878,
+        ymax:8399737.889818357,
         spatialReference: {
             wkid: 102100
           }
@@ -95,20 +100,20 @@
               name: formattedTime,
               title: formattedTime,
               element: new ImageElement({
-          image: `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/${formattedTime}.png`,
+          image: `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/3857_${formattedTime}.png`,
           opacity : 0.7,
           georeference: new ExtentAndRotationGeoreference({
-            extent: imageExtent
+            extent: imageExtent3857
           })
         })}
       });
       var imgElements = timeSteps.map(function(time) {
         var formattedTime = time.toISOString().slice(0, 13).replace('T', '_');
         return  new ImageElement({
-          image: `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/${formattedTime}.png`,
+          image: `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/3857_${formattedTime}.png`,
           opacity : 0.7,
           georeference: new ExtentAndRotationGeoreference({
-            extent: imageExtent
+            extent: imageExtent3857
           })
         })
       });
