@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Controlled Animation with Adjusted Right Side</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        .animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 50%;
+            height: 100%;
+            box-sizing: border-box;
+            position: relative;
+            padding-top: 20px;
+            background-color: #ffffff;
+        }
+
+        .animation img {
+            max-width: 100%;
+            max-height: calc(100% - 180px);
+            object-fit: contain;
+        }
+
+        .animation:nth-child(2) {
+            padding-top: 170px; /* 增加上方内边距，使内容下移 */
+        }
+
+        .animation:nth-child(2) img {
+            max-height: calc(50% );
+        }
+
+        .title-container {
+            text-align: center;
+            width: calc(100% - 100px); /* 減少寬度以配合左邊距 */
+            margin-left: 100px; /* 添加左邊距使文字向右偏移 */
+            width: 100%;
+        }
+
+        .title-line {
+            margin: 5px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .year-1960-2023 {
+            color: #8B0000; /* 暗紅色 */
+        }
+
+        .year-1995-2014 {
+            color: #00008B; /* 深藍色 */
+        }
+
+        .anim-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            padding: 0 16px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input[type=range].anim-slider {
+            width: 100%;
+            max-width: 100%;
+            margin: 16px 0;
+        }
+
+        .anim-buttons {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0;
+        }
+
+        .anim-buttons button {
+            margin: 0 2px;
+            padding: 8px;
+            width: 36px;
+            height: 36px;
+            background-color: #ffffff;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+        }
+
+        .anim-state {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .anim-state label {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="animation">
+            <img id="_anim_imgbc839fb844a546b7ac07259320d612df">
+        </div>
+        <div class="animation">
+            <div class="title-container">
+                <div class="title-line"><span class="year-1960-2023">1960-2023</span>年全球年平均海表溫差異(°C)</div>
+                <div class="title-line">基準值<span class="year-1995-2014">1995-2014</span>年平均海表溫</div>
+            </div>
+            <img id="_static_imgbc839fb844a546b7ac07259320d612df">
+        </div>
+    </div>
+    <div class="anim-controls">
+        <input id="_anim_sliderbc839fb844a546b7ac07259320d612df" type="range" class="anim-slider"
+               name="points" min="0" max="62" step="1" value="0"
+               oninput="animbc839fb844a546b7ac07259320d612df.set_frame(parseInt(this.value));">
+        <div class="anim-buttons">
+            <button onclick="animbc839fb844a546b7ac07259320d612df.slower()"><i class="fa fa-minus"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.first_frame()"><i class="fa fa-fast-backward"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.previous_frame()"><i class="fa fa-step-backward"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.reverse_animation()"><i class="fa fa-play fa-flip-horizontal"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.pause_animation()"><i class="fa fa-pause"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.play_animation()"><i class="fa fa-play"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.next_frame()"><i class="fa fa-step-forward"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.last_frame()"><i class="fa fa-fast-forward"></i></button>
+            <button onclick="animbc839fb844a546b7ac07259320d612df.faster()"><i class="fa fa-plus"></i></button>
+        </div>
+        <form name="_anim_loop_selectbc839fb844a546b7ac07259320d612df" class="anim-state">
+            <input type="radio" name="state" value="once" id="_anim_radio1_bc839fb844a546b7ac07259320d612df">
+            <label for="_anim_radio1_bc839fb844a546b7ac07259320d612df">Once</label>
+            <input type="radio" name="state" value="loop" id="_anim_radio2_bc839fb844a546b7ac07259320d612df" checked>
+            <label for="_anim_radio2_bc839fb844a546b7ac07259320d612df">Loop</label>
+            <input type="radio" name="state" value="reflect" id="_anim_radio3_bc839fb844a546b7ac07259320d612df">
+            <label for="_anim_radio3_bc839fb844a546b7ac07259320d612df">Reflect</label>
+        </form>
+    </div>
+
+    <script>
+        function isInternetExplorer() {
+            ua = navigator.userAgent;
+            return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+        }
+
+        function Animation(frames, frames1, img_id, static_img_id, slider_id, interval, loop_select_id){
+            this.img_id = img_id;
+            this.static_img_id = static_img_id;
+            this.slider_id = slider_id;
+            this.loop_select_id = loop_select_id;
+            this.interval = interval;
+            this.current_frame = 0;
+            this.direction = 0;
+            this.timer = null;
+            this.frames = new Array(frames.length);
+            this.frames1 = new Array(frames1.length);
+
+            for (var i = 0; i < frames.length; i++) {
+                this.frames[i] = new Image();
+                this.frames[i].src = frames[i];
+            }
+
+            for (var i = 0; i < frames1.length; i++) {
+                this.frames1[i] = new Image();
+                this.frames1[i].src = frames1[i];
+            }
+
+            var slider = document.getElementById(this.slider_id);
+            slider.max = this.frames.length - 1;
+            if (isInternetExplorer()) {
+                slider.setAttribute('onchange', slider.getAttribute('oninput'));
+                slider.setAttribute('oninput', null);
+            }
+            this.set_frame(this.current_frame);
+        }
+
+        Animation.prototype.get_loop_state = function(){
+            var button_group = document[this.loop_select_id].state;
+            for (var i = 0; i < button_group.length; i++) {
+                var button = button_group[i];
+                if (button.checked) {
+                    return button.value;
+                }
+            }
+            return undefined;
+        }
+
+        Animation.prototype.set_frame = function(frame){
+            this.current_frame = frame;
+            document.getElementById(this.img_id).src = this.frames[this.current_frame].src;
+            document.getElementById(this.static_img_id).src = this.frames1[this.current_frame].src;
+            document.getElementById(this.slider_id).value = this.current_frame;
+        }
+
+        Animation.prototype.next_frame = function() {
+            this.set_frame(Math.min(this.frames.length - 1, this.current_frame + 1));
+        }
+
+        Animation.prototype.previous_frame = function() {
+            this.set_frame(Math.max(0, this.current_frame - 1));
+        }
+
+        Animation.prototype.first_frame = function() {
+            this.set_frame(0);
+        }
+
+        Animation.prototype.last_frame = function() {
+            this.set_frame(this.frames.length - 1);
+        }
+
+        Animation.prototype.slower = function() {
+            this.interval /= 0.7;
+            if(this.direction > 0){this.play_animation();}
+            else if(this.direction < 0){this.reverse_animation();}
+        }
+
+        Animation.prototype.faster = function() {
+            this.interval *= 0.7;
+            if(this.direction > 0){this.play_animation();}
+            else if(this.direction < 0){this.reverse_animation();}
+        }
+
+        Animation.prototype.anim_step_forward = function() {
+            this.current_frame += 1;
+            if(this.current_frame < this.frames.length){
+                this.set_frame(this.current_frame);
+            }else{
+                var loop_state = this.get_loop_state();
+                if(loop_state == "loop"){
+                    this.first_frame();
+                }else if(loop_state == "reflect"){
+                    this.last_frame();
+                    this.reverse_animation();
+                }else{
+                    this.pause_animation();
+                    this.last_frame();
+                }
+            }
+        }
+
+        Animation.prototype.anim_step_reverse = function() {
+            this.current_frame -= 1;
+            if(this.current_frame >= 0){
+                this.set_frame(this.current_frame);
+            }else{
+                var loop_state = this.get_loop_state();
+                if(loop_state == "loop"){
+                    this.last_frame();
+                }else if(loop_state == "reflect"){
+                    this.first_frame();
+                    this.play_animation();
+                }else{
+                    this.pause_animation();
+                    this.first_frame();
+                }
+            }
+        }
+
+        Animation.prototype.pause_animation = function() {
+            this.direction = 0;
+            if (this.timer){
+                clearInterval(this.timer);
+                this.timer = null;
+            }
+        }
+
+        Animation.prototype.play_animation = function() {
+            this.pause_animation();
+            this.direction = 1;
+            var t = this;
+            if (!this.timer) this.timer = setInterval(function() {
+                t.anim_step_forward();
+            }, this.interval);
+        }
+
+        Animation.prototype.reverse_animation = function() {
+            this.pause_animation();
+            this.direction = -1;
+            var t = this;
+            if (!this.timer) this.timer = setInterval(function() {
+                t.anim_step_reverse();
+            }, this.interval);
+        }
+
+        function init() {
+            var frames = new Array(62);
+            var frames1 = new Array(62);
+            for (var i = 0; i < 62; i++){
+                frames[i] = "https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/3D_sst_1961_2023/sst_mean_1960-2024_" + (1962 + i) + ".png";
+                frames1[i] = "https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/sst_barchart_1961_2023/sst_mean_1961-2023_" + (1962 + i) + ".000002.png";
+            }
+
+            var img_id = "_anim_imgbc839fb844a546b7ac07259320d612df";
+            var static_img_id = "_static_imgbc839fb844a546b7ac07259320d612df";
+            var slider_id = "_anim_sliderbc839fb844a546b7ac07259320d612df";
+            var loop_select_id = "_anim_loop_selectbc839fb844a546b7ac07259320d612df";
+
+            animbc839fb844a546b7ac07259320d612df = new Animation(frames, frames1, img_id, static_img_id, slider_id, 150, loop_select_id);
+        }
+
+        init();
+    </script>
+</body>
+</html>
