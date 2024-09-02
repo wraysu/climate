@@ -31,7 +31,7 @@
             height: 100%;
             box-sizing: border-box;
             position: relative;
-            padding-top: 20px;
+            padding-top: 10px;
             background-color: #000000;
         }
 
@@ -42,7 +42,7 @@
         }
 
         .animation:nth-child(1) {
-            padding-top: 100px; /* 增加上方内边距，使内容下移 */
+            padding-top: 20px; /* 增加上方内边距，使内容下移 */
         }
 
         .animation:nth-child(1) img {
@@ -50,7 +50,7 @@
         }
         
         .animation:nth-child(2) {
-            padding-top: 120px; /* 增加上方内边距，使内容下移 */
+            padding-top: 70px; /* 增加上方内边距，使内容下移 */
             padding-right: 50px;
         }
 
@@ -99,6 +99,7 @@
         .left-year {
             color: #ffffff;
             font-size: 3.0em;
+            font-weight: bold;
         }
 
         .left-text {
@@ -226,7 +227,7 @@
             this.slider_id = slider_id;
             this.loop_select_id = loop_select_id;
             this.interval = interval;
-            this.current_frame = 0;
+            this.current_frame = 20;
             this.direction = 0;
             this.timer = null;
             this.frames = new Array(frames.length);
