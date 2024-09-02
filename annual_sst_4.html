@@ -73,11 +73,11 @@
         }
         .year-1960-2023 {
             color: #ffffff;
-            font-size: 2.5em;
+            font-size: 2.7em;
         }
         .year-1995-2014 {
             color: #ffffff;
-            font-size: 1.4em;
+            font-size: 1.7em;
         }
 
         .left-title-container {
@@ -98,12 +98,12 @@
 
         .left-year {
             color: #ffffff;
-            font-size: 2.5em;
+            font-size: 2.7em;
         }
 
         .left-text {
             color: #ffffff;
-            font-size: 2.0em;
+            font-size: 2.2em;
         }
 
         .anim-controls {
@@ -384,16 +384,7 @@
             var loop_select_id = "_anim_loop_selectbc839fb844a546b7ac07259320d612df";
 
             animbc839fb844a546b7ac07259320d612df = new Animation(frames, frames1, img_id, static_img_id, slider_id, 150, loop_select_id);
-
-            // 設置 slider 的範圍
-            var slider = document.getElementById(slider_id);
-            slider.min = 1960;
-            slider.max = 2023;
-            slider.value = 1960;
-
-            // 初始化動畫到 1960 年
-            animbc839fb844a546b7ac07259320d612df.set_frame(1960 - 1940);
-                }
+        }
 
         init();
     </script>
