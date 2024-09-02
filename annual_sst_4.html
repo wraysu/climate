@@ -42,7 +42,7 @@
         }
 
         .animation:nth-child(1) {
-            padding-top: 160px; /* 增加上方内边距，使内容下移 */
+            padding-top: 120px; /* 增加上方内边距，使内容下移 */
         }
 
         .animation:nth-child(1) img {
@@ -59,25 +59,51 @@
         }
 
         .title-container {
-            text-align: center;
-            width: calc(100% - 100px); /* 減少寬度以配合左邊距 */
-            margin-left: 100px; /* 添加左邊距使文字向右偏移 */
-            width: 100%;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #000000; /* Adding a background color for visibility */
         }
-
         .title-line {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
             margin: 5px 0;
-            font-size: 1.5em;
-            font-weight: bold;
-            color:#ffffff
         }
-
         .year-1960-2023 {
-            color: #f70c0c; /* 暗紅色 */
+            color: #ffffff;
+            font-size: 2.5em;
+        }
+        .year-1995-2014 {
+            color: #ffffff;
+            font-size: 1.4em;
         }
 
-        .year-1995-2014 {
-            color: #656af3; /* 深藍色 */
+        .left-title-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #000000;
+            padding: 20px 0;
+        }
+
+        .left-title-line {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 5px 0;
+        }
+
+        .left-year {
+            color: #ffffff;
+            font-size: 2.5em;
+        }
+
+        .left-text {
+            color: #ffffff;
+            font-size: 2.0em;
         }
 
         .anim-controls {
@@ -131,12 +157,34 @@
 <body>
     <div class="container">
         <div class="animation">
+            <div class="left-title-container">
+                <div class="left-title-line">
+                    <span id="leftYear" class="left-year"></span>
+                </div>
+                <div class="left-title-line">
+                    <span class="left-text">全球海表溫變化</span>
+                </div>
+            </div>
             <img id="_anim_imgbc839fb844a546b7ac07259320d612df">
         </div>
         <div class="animation">
             <div class="title-container">
-                <div class="title-line"><span class="year-1960-2023">1960-2023</span>年全球年平均海表溫差異(°C)</div>
-                <div class="title-line">基準值<span class="year-1995-2014">1995-2014</span>年平均海表溫</div>
+                <div class="title-line"><span class="year-1960-2023">全</span>
+                    <span class="year-1960-2023">球</span>
+                    <span class="year-1960-2023">海</span>
+                    <span class="year-1960-2023">表</span>
+                    <span class="year-1960-2023">溫</span>
+                    <span class="year-1960-2023">變</span>
+                    <span class="year-1960-2023">化</span></div>
+                <div class="title-line"><span class="year-1995-2014">相</span>
+                    <span class="year-1995-2014">較</span>
+                    <span class="year-1995-2014">於</span>
+                    <span class="year-1995-2014">1995</span>
+                    <span class="year-1995-2014">-</span>
+                    <span class="year-1995-2014">2014</span>
+                    <span class="year-1995-2014">氣</span>
+                    <span class="year-1995-2014">候</span>
+                    <span class="year-1995-2014">值</span></div>
             </div>
             <img id="_static_imgbc839fb844a546b7ac07259320d612df">
         </div>
@@ -183,6 +231,9 @@
             this.timer = null;
             this.frames = new Array(frames.length);
             this.frames1 = new Array(frames1.length);
+            this.start_year = 1940;
+            this.end_year = 2023;
+            this.slider_start_year = 1960;
 
             for (var i = 0; i < frames.length; i++) {
                 this.frames[i] = new Image();
@@ -195,6 +246,10 @@
             }
 
             var slider = document.getElementById(this.slider_id);
+            var ani = this;
+            slider.oninput = function() {
+                ani.set_frame(parseInt(this.value) - (ani.slider_start_year - ani.start_year));
+            }
             slider.max = this.frames.length - 1;
             if (isInternetExplorer()) {
                 slider.setAttribute('onchange', slider.getAttribute('oninput'));
@@ -219,6 +274,8 @@
             document.getElementById(this.img_id).src = this.frames[this.current_frame].src;
             document.getElementById(this.static_img_id).src = this.frames1[this.current_frame].src;
             document.getElementById(this.slider_id).value = this.current_frame;
+            var year = this.start_year + this.current_frame;
+            document.getElementById('leftYear').innerText = year + '年';
         }
 
         Animation.prototype.next_frame = function() {
@@ -312,11 +369,13 @@
         }
 
         function init() {
-            var frames = new Array(84);
-            var frames1 = new Array(84);
-            for (var i = 0; i < 84; i++){
-                frames[i] = "https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_sst/sst_mean_1960-2024_" + (1940 + i) + ".png";
-                frames1[i] = "https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_SST_Chart/SST_anomaly_time-series_" + (i+1).toString().padStart(3, '0') + ".png";
+            var total_years = 2023 - 1940 + 1;
+            var frames = new Array(total_years);
+            var frames1 = new Array(total_years);
+            for (var i = 0; i < total_years; i++) {
+                var year = 1940 + i;
+                frames[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_sst_new/sst_mean_1960-2024_${year}.png?t=${Date.now()}`;
+                frames1[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_SST_Chart/SST_anomaly_time-series_${(i+1).toString().padStart(3, '0')}.png?t=${Date.now()}`;
             }
 
             var img_id = "_anim_imgbc839fb844a546b7ac07259320d612df";
@@ -325,7 +384,16 @@
             var loop_select_id = "_anim_loop_selectbc839fb844a546b7ac07259320d612df";
 
             animbc839fb844a546b7ac07259320d612df = new Animation(frames, frames1, img_id, static_img_id, slider_id, 150, loop_select_id);
-        }
+
+            // 設置 slider 的範圍
+            var slider = document.getElementById(slider_id);
+            slider.min = 1960;
+            slider.max = 2023;
+            slider.value = 1960;
+
+            // 初始化動畫到 1960 年
+            animbc839fb844a546b7ac07259320d612df.set_frame(1960 - 1940);
+                }
 
         init();
     </script>
