@@ -42,13 +42,28 @@
         }
 
         .animation:nth-child(1) {
-            padding-top: -40px; /* 增加上方内边距，使内容下移 */
+            padding-top: 0px; /* 增加上方内边距，使内容下移 */
         }
 
-        .animation:nth-child(1) img {
-            max-height: calc(100% );
+        /* 地圖原圖 2500x2500：只顯示地圖+圖例 (x:100-2400, y:540-2000)，裁掉圖中年份與上下黑邊 */
+        .map-crop {
+            position: relative;
+            width: 95%;
+            max-width: calc((100vh - 400px) * 2300 / 1460);
+            aspect-ratio: 2300 / 1460;
+            overflow: hidden;
+            margin-top: 20px;
         }
-        
+
+        .map-crop img {
+            position: absolute;
+            left: -4.348%;   /* -100 / 2300 */
+            top: -36.986%;   /* -540 / 1460 */
+            width: 108.696%; /* 2500 / 2300 */
+            max-width: none;
+            max-height: none;
+        }
+
         .animation:nth-child(2) {
             padding-top: 40px; /* 增加上方内边距，使内容下移 */
             padding-right: 50px;
@@ -152,9 +167,6 @@
             margin-right: 8px;
             color:#ffffff
         }
-        #bar {
-            margin-top: 20px; /* 调整此值以获得所需的间距 */
-        }
     </style>
 </head>
 <body>
@@ -168,8 +180,9 @@
                     <span class="left-text">全球海平面變化</span>
                 </div>
             </div>
-            <img id="_anim_imgbc839fb844a546b7ac07259320d612df">
-            <img id = "bar" src="https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/ssh_2D/bar.png" width="600px">
+            <div class="map-crop">
+                <img id="_anim_imgbc839fb844a546b7ac07259320d612df" alt="全球海平面變化地圖">
+            </div>
         </div>
         <div class="animation">
             <div class="title-container">
@@ -393,3 +406,4 @@
     </script>
 </body>
 </html>
+
