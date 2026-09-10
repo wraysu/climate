@@ -376,7 +376,7 @@
             for (var i = 0; i < total_years; i++) {
                 var year = 1940 + i;
                 frames[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_sst_new_new/sst_mean_1960-2024_${year}.png?t=${Date.now()}`;
-                frames1[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_SST_Chart_new/era5_sst_anomal_1940-2023_${year}.png?t=${Date.now()}`;
+                frames1[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_SST_Chart_new/era5_sst_anomal_1940-2023_${year -1}.png?t=${Date.now()}`;
             }
 
             var img_id = "_anim_imgbc839fb844a546b7ac07259320d612df";
