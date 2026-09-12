@@ -58,21 +58,21 @@
             object-fit: contain;
         }
 
-        /* 地圖原圖 2249x1252，最上方 100px 是圖內年份：裁掉後只留地圖 (2249x1152) */
+        /* 地圖原圖 2500x2500：只顯示地圖+圖例 (x:100-2400, y:540-2000)，裁掉圖中年份與上下黑邊 */
         .map-crop {
             position: relative;
-            width: min(100cqw, 100cqh * 2249 / 1152);
-            aspect-ratio: 2249 / 1152;
+            width: min(100cqw, 100cqh * 2300 / 1460);
+            aspect-ratio: 2300 / 1460;
             overflow: hidden;
         }
 
         .map-crop img {
             position: absolute;
-            left: 0;
-            top: -8.681%;  /* -100 / 1152 */
-            width: 100%;
+            left: -4.348%;   /* -100 / 2300 */
+            top: -36.986%;   /* -540 / 1460 */
+            width: 108.696%; /* 2500 / 2300 */
         }
-        
+
         /* 左右標題行高相同，兩邊圖片區才會對齊 */
         .title-container {
             width: calc(var(--title-size) * 9.4);
@@ -97,7 +97,7 @@
         }
         .year-1995-2014 {
             color: #000000;
-            font-size: calc(var(--title-size) * 0.83);
+            font-size: calc(var(--title-size) * 0.7);
         }
 
         .left-title-container {
@@ -115,7 +115,6 @@
         .left-year {
             color: #ffffff;
             font-size: var(--title-size);
-            font-weight: bold;
         }
 
         .left-text {
@@ -175,12 +174,12 @@
                     <span id="leftYear" class="left-year"></span>
                 </div>
                 <div class="left-title-line">
-                    <span class="left-text">全球海表溫變化</span>
+                    <span class="left-text">全球海平面變化</span>
                 </div>
             </div>
             <div class="image-area">
                 <div class="map-crop">
-                    <img id="_anim_imgbc839fb844a546b7ac07259320d612df" alt="全球海表溫變化地圖">
+                    <img id="_anim_imgbc839fb844a546b7ac07259320d612df" alt="全球海平面變化地圖">
                 </div>
             </div>
         </div>
@@ -189,23 +188,22 @@
                 <div class="title-line"><span class="year-1960-2023">全</span>
                     <span class="year-1960-2023">球</span>
                     <span class="year-1960-2023">海</span>
-                    <span class="year-1960-2023">表</span>
-                    <span class="year-1960-2023">溫</span>
+                    <span class="year-1960-2023">平</span>
+                    <span class="year-1960-2023">面</span>
                     <span class="year-1960-2023">變</span>
                     <span class="year-1960-2023">化</span></div>
                 <div class="title-line"><span class="year-1995-2014">相</span>
                     <span class="year-1995-2014">較</span>
                     <span class="year-1995-2014">於</span>
-                    <span class="year-1995-2014">1995</span>
-                    <span class="year-1995-2014">-</span>
-                    <span class="year-1995-2014">2014</span>
+                    <span class="year-1995-2014">1993</span>
                     <span class="year-1995-2014">氣</span>
                     <span class="year-1995-2014">候</span>
                     <span class="year-1995-2014">值</span></div>
             </div>
             <div class="image-area">
-                <img id="_static_imgbc839fb844a546b7ac07259320d612df" alt="全球海表溫距平時間序列">
+                <img id="_static_imgbc839fb844a546b7ac07259320d612df" alt="全球海平面變化時間序列">
             </div>
+            
         </div>
     </div>
     <div class="anim-controls">
@@ -250,10 +248,9 @@
             this.timer = null;
             this.frames = new Array(frames.length);
             this.frames1 = new Array(frames1.length);
-            // 地圖檔 1961-2025；折線圖檔名比圖中年份少 1 (檔名 1960 顯示 1961)，見 init()
-            this.start_year = 1961;
+            this.start_year = 1960;
             this.end_year = 2025;
-            this.slider_start_year = 1961;
+            this.slider_start_year = 1960;
 
             for (var i = 0; i < frames.length; i++) {
                 this.frames[i] = new Image();
@@ -389,13 +386,13 @@
         }
 
         function init() {
-            var total_years = 2025 - 1961 + 1;
+            var total_years = 2025 - 1960 + 1;
             var frames = new Array(total_years);
             var frames1 = new Array(total_years);
             for (var i = 0; i < total_years; i++) {
-                var year = 1961 + i;
-                frames[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_sst_new_new/sst_mean_1960-2024_${year}.png?t=${Date.now()}`;
-                frames1[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/2D_SST_Chart_new/era5_sst_anomal_1940-2023_${year - 1}.png?t=${Date.now()}`;
+                var year = 1960 + i;
+                frames[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/ssh_2D_new/sst_mean_1960-2024_${year}.png?t=${Date.now()}`;
+                frames1[i] = `https://dwfile1.ncdr.nat.gov.tw/disp/ncdr_wave/ssh_bar_new/ssh_bar_${year}.png?t=${Date.now()}`;
             }
 
             var img_id = "_anim_imgbc839fb844a546b7ac07259320d612df";
@@ -410,3 +407,5 @@
     </script>
 </body>
 </html>
+
+
